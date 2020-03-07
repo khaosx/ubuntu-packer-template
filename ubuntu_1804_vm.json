@@ -9,7 +9,7 @@
         "guest_os_type": "ubuntu-64",
         "vm_name": "ubuntu-18.04-vm-template",
         "iso_url": "http://cdimage.ubuntu.com/releases/18.04/release/ubuntu-18.04.4-server-amd64.iso",
-        "iso_target_path": "/Users/kris/development/projects/packer/iso/ubuntu-18.04.4-server-amd64.iso",
+        "iso_target_path": "./iso/ubuntu-18.04.4-server-amd64.iso",
         "iso_checksum": "d5bc5c59c24191bb45dd85fc6a420b34",
         "iso_checksum_type": "md5",
         "skip_export": "true",

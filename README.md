@@ -7,6 +7,13 @@ _Notes, in progress:_
 
 ```
 {
-  "ssh_pass": "foo",
+  "ssh_pass": 		"SSH_PASSWORD",
+  "ssh_user":		"SSH_USERNAME",
+  "vcenter_server":	"VCENTER_SERVER",
+  "vcenter_user":	"VCENTER_USER",
+  "vcenter_password":   "VCENTER_PASSWORD",
+  "vcenter_datacenter":	"DATACENTER",
+  "vcenter_host":	"ESX_HOST_NAME",
+  "vcenter_datastore":	"DATASTORE_NAME",
 }
 ```
