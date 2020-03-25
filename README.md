@@ -30,8 +30,8 @@ The fourth VM ("control") is designed to be your master Ansible node.
 ```
    cat >> variables.json << 'EOF'
    {
-     "ssh_pass":			"SSH_PASSWORD",
-     "ssh_user":			"SSH_USERNAME",
+     "ssh_pass":		"SSH_PASSWORD",
+     "ssh_user":		"SSH_USERNAME",
      "vcenter_server":		"VCENTER_SERVER",
      "vcenter_user":		"VCENTER_USER",
      "vcenter_password":	"VCENTER_PASSWORD",
