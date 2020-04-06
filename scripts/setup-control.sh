@@ -6,8 +6,9 @@ touch /home/jarvis/.ssh/authorized_keys
 touch /home/jarvis/.ssh/known_hosts
 
 # Add ssh keys for jarvis
-mv /tmp/jarvis_rsa /home/jarvis/.ssh/jarvis_rsa
-mv /tmp/jarvis_rsa.pub /home/jarvis/.ssh/jarvis_rsa.pub
+cat /tmp/jarvis_rsa.pub > /home/jarvis/.ssh/authorized_keys
+mv /tmp/jarvis_rsa /home/jarvis/.ssh/id_rsa
+mv /tmp/jarvis_rsa.pub /home/jarvis/.ssh/id_rsa.pub
 
 # Change permissions for jarvis SSH keys
 chown -R jarvis:jarvis /home/jarvis/.ssh
