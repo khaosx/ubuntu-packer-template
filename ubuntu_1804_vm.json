@@ -238,7 +238,7 @@
     ],
     "execute_command": "echo '{{ user `ssh_password` }}' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
     "script": "scripts/setup.sh",
-    "only": ["control"]    
+    "except": ["control"]    
   },
   {
     "type": "shell",
