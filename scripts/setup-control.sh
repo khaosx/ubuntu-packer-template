@@ -13,8 +13,8 @@ mv /tmp/jarvis_rsa.pub /home/jarvis/.ssh/id_rsa.pub
 # Change permissions for jarvis SSH keys
 chown -R jarvis:jarvis /home/jarvis/.ssh
 chmod 700 /home/jarvis/.ssh
-chmod 600 /home/jarvis/.ssh/jarvis_rsa
-chmod 644 /home/jarvis/.ssh/jarvis_rsa.pub
+chmod 600 /home/jarvis/.ssh/id_rsa
+chmod 644 /home/jarvis/.ssh/id_rsa.pub
 chmod 644 /home/jarvis/.ssh/authorized_keys
 chmod 644 /home/jarvis/.ssh/known_hosts
 
