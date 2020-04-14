@@ -24,4 +24,10 @@ apt-add-repository ppa:ansible/ansible
 
 # Install Ansible.
 apt-get -y update
-apt-get -y install ansible
+apt-get -y install ansible ansible-lint
+
+# Move files
+mv /tmp/reset_ssh_keys.sh /home/jarvis/reset_ssh_keys.sh
+mv /tmp/setup_vault_file.sh /home/jarvis/setup_vault_file.sh
+chmod +x /home/jarvis/reset_ssh_keys.sh
+chmod +x /home/jarvis/setup_vault_file.sh

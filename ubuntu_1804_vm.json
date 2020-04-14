@@ -13,6 +13,7 @@
       "insecure_connection": "true",
       "datacenter": "{{user `vcenter_datacenter`}}",
       "host": "{{user `vcenter_host`}}",
+      "convert_to_template": "true",
       "datastore": "{{user `vcenter_datastore`}}",
       "type": "vsphere-iso",
       "boot_wait": "15s",
@@ -24,7 +25,7 @@
       "CPUs": 1,
       "RAM": 2048,
       "disk_controller_type": "pvscsi",
-      "disk_size": 18432,
+      "disk_size": 28672,
       "network_card": "vmxnet3",
       "network": "VM Network",
       "iso_paths": [
@@ -66,6 +67,7 @@
       "insecure_connection": "true",
       "datacenter": "{{user `vcenter_datacenter`}}",
       "host": "{{user `vcenter_host`}}",
+      "convert_to_template": "true",
       "datastore": "{{user `vcenter_datastore`}}",
       "type": "vsphere-iso",
       "boot_wait": "15s",
@@ -77,7 +79,7 @@
       "CPUs": 2,
       "RAM": 4096,
       "disk_controller_type":	"pvscsi",
-      "disk_size": 26624,
+      "disk_size": 42002,
       "network_card":  "vmxnet3",
       "network": "VM Network",
       "iso_paths": [
@@ -119,6 +121,7 @@
       "insecure_connection": 	"true",
       "datacenter": "{{user `vcenter_datacenter`}}",
       "host": "{{user `vcenter_host`}}",
+      "convert_to_template": "true",
       "datastore": "{{user `vcenter_datastore`}}",
       "type":  "vsphere-iso",
       "boot_wait": "15s",
@@ -130,7 +133,7 @@
       "CPUs":         	4,
       "RAM":        	8192,
       "disk_controller_type":	"pvscsi",
-      "disk_size":      	36864,
+      "disk_size":      	73728,
       "network_card":  "vmxnet3",
       "network": "VM Network",
       "iso_paths": [
@@ -172,10 +175,12 @@
       "insecure_connection": 	"true",
       "datacenter": "{{user `vcenter_datacenter`}}",
       "host": "{{user `vcenter_host`}}",
+      "convert_to_template": "true",
       "datastore": "{{user `vcenter_datastore`}}",
       "type":  "vsphere-iso",
       "boot_wait": "15s",
       "vm_name": "Ubuntu_18.04_Template_Control",
+      "folder": "/{{user `vcenter_template_folder`}}",
       "guest_os_type":  "ubuntu64Guest",
       "ssh_username":  "{{user `ssh_user`}}",
       "ssh_password":  "{{user `ssh_pass`}}",
@@ -183,7 +188,7 @@
       "CPUs":         	4,
       "RAM":        	8192,
       "disk_controller_type":	"pvscsi",
-      "disk_size":      	36864,
+      "disk_size":      	73728,
       "network_card":  "vmxnet3",
       "network": "VM Network",
       "iso_paths": [
@@ -221,6 +226,18 @@
   "provisioners": [
   {
     "type": "file",
+    "source": "files/reset_ssh_keys.sh",
+    "destination": "/tmp/reset_ssh_keys.sh",
+    "only": ["control"]
+  },
+  {
+    "type": "file",
+    "source": "files/setup_vault_file.sh",
+    "destination": "/tmp/setup_vault_file.sh",
+    "only": ["control"]
+  },
+  {
+    "type": "file",
     "source": "/Users/kris/.ssh/jarvis_rsa",
     "destination": "/tmp/jarvis_rsa",
     "only": ["control"]
@@ -232,31 +249,19 @@
   },
   {
     "type": "shell",
-    "environment_vars": [
-      "SSH_USERNAME={{user `ssh_username`}}",
-      "SSH_PASSWORD={{user `ssh_password`}}"
-    ],
-    "execute_command": "echo '{{ user `ssh_password` }}' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
+    "execute_command": "echo '{{ user `ssh_pass` }}' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
     "script": "scripts/setup.sh",
     "except": ["control"]    
   },
   {
     "type": "shell",
-    "environment_vars": [
-      "SSH_USERNAME={{user `ssh_username`}}",
-      "SSH_PASSWORD={{user `ssh_password`}}"
-    ],
-    "execute_command": "echo '{{ user `ssh_password` }}' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
+    "execute_command": "echo '{{ user `ssh_pass` }}' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
     "script": "scripts/setup-control.sh",
     "only": ["control"]    
   },
   {
     "type": "shell",
-    "environment_vars": [
-      "SSH_USERNAME={{user `ssh_username`}}",
-      "SSH_PASSWORD={{user `ssh_password`}}"
-    ],
-    "execute_command": "echo '{{ user `ssh_password` }}' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
+    "execute_command": "echo '{{ user `ssh_pass` }}' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
     "script": "scripts/cleanup.sh"
   }
   ]

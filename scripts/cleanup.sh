@@ -1,12 +1,6 @@
-#!/bin/bash -eu
+#!/bin/bash -eux
 
-SSH_USER=${SSH_USERNAME:-jarvis}
 date > /etc/vagrant_box_build_date
-
-# Modify /etc/fstab to mount /tmp with noexec
-# preseed.cfg settings are not being honored
-
-sed -i.bak -r -e '/\s+\/tmp\s+/ { /noexec/! s%\s+/tmp\s+(\S+)\s+% /tmp \1 noexec,%; }' /etc/fstab
 
 # Stop services for cleanup
 service rsyslog stop
@@ -37,8 +31,8 @@ update-locale LANG=$LANG LC_ALL=$LC_ALL
 dpkg --list 'linux-*' | sed '/^ii/!d;/'"$(uname -r | sed "s/\(.*\)-\([^0-9]\+\)/\1/")"'/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d' | xargs apt-get -y purge
 dpkg --list | awk '{print $2}' | grep linux-source | xargs apt-get -y purge
 dpkg --list | awk '{print $2}' | grep -- '-doc$' | xargs apt-get -y purge
-apt remove -y ppp pppconfig pppoeconf cpp gcc g++ libx11-data xauth libxmuu1 libxcb1 libx11-6 libxext6 linux-source language-pack-en language-pack-gnome-en
-apt-get -y remove '.*-dev$'
+apt remove -qq -y ppp pppconfig pppoeconf cpp gcc g++ libx11-data xauth libxmuu1 libxcb1 libx11-6 libxext6 linux-source language-pack-en language-pack-gnome-en
+apt-get -qq -y remove '.*-dev$'
 
 # Disable IPv6
 sed -i -e 's/^GRUB_CMDLINE_LINUX=.*/GRUB_CMDLINE_LINUX="ipv6.disable=1"/' /etc/default/grub
@@ -111,6 +105,7 @@ find /var/log -type f -exec truncate --size=0 {} \;
 apt-get clean
 apt autoremove -y
 apt update
+apt-get upgrade -y
 
 # Zero out the rest of the free space using dd, then delete the written file.
 dd if=/dev/zero of=/EMPTY bs=1M
@@ -121,3 +116,7 @@ sync
 
 echo "==> Disk usage after cleanup"
 df -h
+
+# Modify /etc/fstab to mount /tmp with noexec
+# preseed.cfg settings are not being honored
+sed -i.bak -r -e '/\s+\/tmp\s+/ { /noexec/! s%\s+/tmp\s+(\S+)\s+% /tmp \1 noexec,%; }' /etc/fstab
